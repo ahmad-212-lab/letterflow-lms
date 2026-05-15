@@ -7,8 +7,10 @@ if (!admin.apps.length) {
       credential: admin.credential.cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        // Replace escaped newlines for private key and handle potential wrapping quotes
-        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n').replace(/"/g, ''),
+        // Bulletproof private key parsing
+        privateKey: process.env.FIREBASE_PRIVATE_KEY 
+          ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n').replace(/"/g, '').trim()
+          : undefined,
       }),
     });
     console.log("Firebase Admin Initialized successfully.");
