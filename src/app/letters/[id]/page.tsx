@@ -8,6 +8,7 @@ import PrintButton from "@/components/PrintButton";
 import LetterActions from "@/components/LetterActions";
 import QRCodeDisplay from "@/components/QRCodeDisplay";
 import PrintHeader from "@/components/PrintHeader";
+import DigitalSeal from "@/components/DigitalSeal";
 
 export default async function LetterDetailPage({ params }: { params: { id: string } }) {
   if (!db) return notFound();
@@ -115,6 +116,12 @@ export default async function LetterDetailPage({ params }: { params: { id: strin
                 </div>
               </div>
             </div>
+
+            {letter.status === 'Approved' && (
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-1rem', marginBottom: '1rem' }}>
+                <DigitalSeal userName={letter.assignedTo?.name || letter.createdBy.name} date={letter.updatedAt || letter.createdAt} />
+              </div>
+            )}
 
             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
               <h3 style={{ fontSize: '1.125rem', marginBottom: '1rem' }}>Description</h3>
