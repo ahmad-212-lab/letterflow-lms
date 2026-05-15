@@ -7,6 +7,7 @@ import PrintButton from "@/components/PrintButton";
 
 import LetterActions from "@/components/LetterActions";
 import QRCodeDisplay from "@/components/QRCodeDisplay";
+import PrintHeader from "@/components/PrintHeader";
 
 export default async function LetterDetailPage({ params }: { params: { id: string } }) {
   if (!db) return notFound();
@@ -53,6 +54,7 @@ export default async function LetterDetailPage({ params }: { params: { id: strin
   };
   return (
     <AppLayout title={`Letter Details: ${letter.referenceNo}`}>
+      <PrintHeader />
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '2rem', alignItems: 'flex-start' }}>
         
         {/* Left Column: Letter Info */}

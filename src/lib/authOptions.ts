@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "./firebase-admin";
 import bcrypt from "bcryptjs";
+import { logAction } from "./audit-logger";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -51,6 +52,8 @@ export const authOptions: NextAuthOptions = {
         if (!isPasswordValid) {
           return null;
         }
+
+        await logAction(userDoc.id, user.name, 'LOGIN', `User logged in from ${credentials?.email}`);
 
         return {
           id: userDoc.id,

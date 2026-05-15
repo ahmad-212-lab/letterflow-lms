@@ -1,12 +1,22 @@
 import { Inbox } from "lucide-react";
 export const dynamic = 'force-dynamic';
-import { db } from "@/lib/firebase-admin";
+import { db, initializationError } from "@/lib/firebase-admin";
 import RegisterLetterModal from "@/components/RegisterLetterModal";
 import AppLayout from "@/components/AppLayout";
 import LetterActions from "@/components/LetterActions";
 
 export default async function IncomingLettersPage() {
-  if (!db) return <AppLayout title="Incoming Letters"><div>Firestore not initialized</div></AppLayout>;
+  if (!db) {
+    return (
+      <AppLayout title="Incoming Letters">
+        <div style={{ padding: '2rem', color: 'red' }}>
+          <h3>Database Connection Failed</h3>
+          <p>Error: {initializationError || "Unknown connection issue"}</p>
+          <p>Please check your Vercel Environment Variables.</p>
+        </div>
+      </AppLayout>
+    );
+  }
 
   const snapshot = await db.collection('letters')
     .where('type', '==', 'Incoming')

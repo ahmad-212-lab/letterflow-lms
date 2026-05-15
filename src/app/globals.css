@@ -181,8 +181,12 @@ a {
 }
 
 @media print {
-  .sidebar, .topbar, .btn, .QuickActions, .no-print {
+  .sidebar, .topbar, .btn, .QuickActions, .no-print, chat-panel {
     display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
   }
   
   .layout-container {
@@ -202,15 +206,18 @@ a {
     border: none !important;
     box-shadow: none !important;
     padding: 0 !important;
+    background: transparent !important;
   }
   
   body {
     background-color: white !important;
-    font-size: 12pt;
+    font-size: 11pt;
+    color: black !important;
   }
 
   h1 {
-    font-size: 24pt !important;
-    margin-bottom: 20pt !important;
+    font-size: 20pt !important;
+    margin-bottom: 15pt !important;
+    color: black !important;
   }
 }

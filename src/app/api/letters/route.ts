@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/firebase-admin";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import { logAction } from "@/lib/audit-logger";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -100,6 +101,14 @@ export async function POST(request: Request) {
     };
 
     await newLetterRef.set(newLetterData);
+
+    await logAction(
+      user.id, 
+      user.name || "Unknown", 
+      'CREATE_LETTER', 
+      `Registered ${type} letter: ${title} (${referenceNo})`,
+      newLetterRef.id
+    );
 
     return NextResponse.json({ id: newLetterRef.id, ...newLetterData }, { status: 201 });
   } catch (error) {
